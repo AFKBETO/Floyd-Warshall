@@ -114,7 +114,7 @@ def main():
                 print("SYNTAX ERROR: Wrong edge count format")
                 continue
             if not edge_count == len(lines)-2: #mauvais nombre des arcs
-                print("SYNTAX ERROR: Wrong edge count or not enough edge data.")
+                print("DATA ERROR: Wrong edge count or not enough edge data.")
                 continue
             
             matrix = [[inf for i in range(node_count)] for i in range(node_count)]
