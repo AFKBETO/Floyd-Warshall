@@ -3,7 +3,7 @@ from os.path import dirname
 from os.path import join
 from math import inf
 
-input_folder = join(dirname(__file__), 'Graphs')
+input_folder = join(dirname(__file__), 'graphs')
 
 
 def print_matrix(matrix):
