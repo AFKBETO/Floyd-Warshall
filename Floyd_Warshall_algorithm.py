@@ -125,25 +125,25 @@ def main():
                 b = check_number(split[1])
                 weight = check_number(split[2])
                 if a == None or b == None: #extrémités hor format
-                    print("SYNTAX ERROR: Wrong endpoint format: Line ",i)
+                    print("SYNTAX ERROR: Wrong endpoint format: Line ",i+1)
                     haserror = True
                     break
                 if weight == None: #poids hors format
-                    print("SYNTAX ERROR: Wrong edge weight format: Line ",i)
+                    print("SYNTAX ERROR: Wrong edge weight format: Line ",i+1)
                     haserror = True
                     break
                 if a < 0 or a > edge_count: #mauvaise extrémité initiale
-                    print("DATA ERROR: Tail node out of bound: Line ",i)
+                    print("DATA ERROR: Tail node out of bound: Line ",i+1)
                     haserror = True
                     break
                 if b < 0 or b > edge_count: #mauvaise extrémité terminale
-                    print("DATA ERROR: Head node out of bound: Line ",i)
+                    print("DATA ERROR: Head node out of bound: Line ",i+1)
                     haserror = True
                     break
-                if matrix[a][b] == None: #détection de graphe multiple
+                if matrix[a][b] == inf: #détection de graphe multiple
                     matrix[a][b] = weight
                 else:
-                    print("GRAPH ERROR: Multiple edges with same endpoints detected: Line ",i)
+                    print("GRAPH ERROR: Multiple edges with same endpoints detected: Line ",i+1)
                     haserror = True
                     break
         if haserror:
