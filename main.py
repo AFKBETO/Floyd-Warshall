@@ -22,9 +22,10 @@ def main():
         first_time = False
 
         # Choix du fichier et validation
-        file_path = ask_file_path("\nChoose the file containing the graph you want to analyze:")
+        file_path, error = ask_file_path("\nChoose the name of the file containing the graph you want to analyze:")
         if file_path is None:
             print("ERROR: File not found.")
+            print("ERROR:", error)
             continue
 
         # Lecture de la matrice

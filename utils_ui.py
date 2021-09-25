@@ -26,10 +26,12 @@ def ask_number(message):
 def ask_file_path(message):
     print(message)
     file_name = input()
+    if not '.' in file_name:
+        file_name = file_name + '.txt'
     file_path = join(__GRAPHS_FOLDER, file_name)
     if not exists(file_path):
-        return None
-    return file_path
+        return None, file_path
+    return file_path, None
 
 
 def print_matrix(matrix):
