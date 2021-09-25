@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Ce fichier contient des méthodes liées à algorithme de Floyd-Warshall.
 """

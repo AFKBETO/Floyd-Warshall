@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Ce fichier contient des méthodes utilitaires pour l'interaction avec l'utilisateur et l'affichage.
 """
