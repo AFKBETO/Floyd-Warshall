@@ -3,6 +3,7 @@
 
 """
 Ce fichier contient des méthodes liées à algorithme de Floyd-Warshall.
+Il semble honnête de mentionner que l'un des membres du groupe (Guillaume Vandenneucker) avait déjà travaillé sur une version plus basique de cet algorithme dans un projet de cours l'année précédente.
 """
 
 from math import inf
