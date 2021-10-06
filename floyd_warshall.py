@@ -25,11 +25,11 @@ def floyd_warshall(matrix):
         for j in range(n):
             successors[i][j] = j
 
-    # Distance du chemin direct de I à J et chemin indirect passant par K
-    for k in range(0, n):
+    # Pour tout sommet intermédiaire, on vérifie s'il permet un chemin plus court pour toute autre pair de sommet
+    for intermediate in range(0, n):
         for i in range(0, n):
             for j in range(0, n):
-                new_dist = result[i][k] + result[k][j]
+                new_dist = result[i][intermediate] + result[intermediate][j]
 
                 if successors is not None and i == j and new_dist < 0:
                     successors = None
@@ -37,7 +37,7 @@ def floyd_warshall(matrix):
                 if new_dist < result[i][j]:
                     result[i][j] = new_dist
                     if successors is not None:
-                        successors[i][j] = successors[i][k]
+                        successors[i][j] = successors[i][intermediate]
 
     return result, successors
 
