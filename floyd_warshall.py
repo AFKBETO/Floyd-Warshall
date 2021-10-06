@@ -3,12 +3,14 @@
 
 """
 Ce fichier contient des méthodes liées à algorithme de Floyd-Warshall.
-Il semble honnête de mentionner que l'un des membres du groupe (Guillaume Vandenneucker) avait déjà travaillé sur une version plus basique de cet algorithme dans un projet de cours l'année précédente.
 """
 
 from math import inf
 
 
+# * Il semble honnête de mentionner que l'un des membres du groupe (Guillaume Vandenneucker) avait déjà travaillé sur une version plus basique de cet algorithme dans un projet de cours l'année précédente.
+# * Plus précisément, les trois lignes de boucles principales ainsi que le principe de mise à jour de distance (new_dist) étaient connus.
+# * Le suivi des successeurs a quant à lui été adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
 def floyd_warshall(matrix):
     successors = [[None for i in line] for line in matrix]  # None si on a détecté un circuit absorbant
 
@@ -41,12 +43,12 @@ def floyd_warshall(matrix):
 
     return result, successors
 
-
+# * Adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
 def calculate_path(successors, u, v):
-    if successors[u][v] is None:
-        return []
-    path = [u]
-    while u is not v:
-        u = successors[u][v]
+    path = []
+    if successors[u][v] is not None:
         path.append(u)
+        while u is not v:
+            u = successors[u][v]
+            path.append(u)
     return path
