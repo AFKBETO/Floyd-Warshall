@@ -4,7 +4,7 @@
 """
 Ce fichier contient la logique d'exécution du programme.
 """
-
+from math import isinf
 from utils_ui import ask_boolean
 from utils_ui import ask_number
 from utils_ui import ask_file_path
@@ -47,6 +47,7 @@ def main():
         print("\nAnalysis complete. Path matrix of this graph:")
         print_matrix(fw_matrix)
 
+
         # Détection de circuit absorbant
         if fw_successors is None:
             print("\nGraph contains a cycle with negative weight (présence d'un circuit absorbant).")
@@ -56,7 +57,9 @@ def main():
             if ask_boolean("\nDo you want to list every shortest path possible [Y/N]?"):
                 for i in range(node_count):
                     for j in range(node_count):
-                        if fw_matrix[i][j] > 0:
+                        if isinf(fw_matrix[i][j]):
+                            print("\t", i, "->", j, ": Does not exist")
+                        else:
                             print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
             while ask_boolean("\nDo you want to show the shortest path between two nodes of your choice [Y/N]?"):
                 i = ask_number("Input starting node:")
