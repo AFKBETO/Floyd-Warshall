@@ -7,12 +7,15 @@ Ce fichier contient des méthodes liées à algorithme de Floyd-Warshall.
 
 from math import inf
 
+from utils_ui import print_matrix
+
 
 # * Il semble honnête de mentionner que l'un des membres du groupe (Guillaume Vandenneucker) avait déjà travaillé sur une version plus basique de cet algorithme dans un projet de cours l'année précédente.
 # * Plus précisément, les trois lignes de boucles principales ainsi que le principe de mise à jour de distance (new_dist) étaient connus.
 # * Le suivi des successeurs a quant à lui été adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
 def floyd_warshall(matrix):
     successors = [[None for i in line] for line in matrix]  # None si on a détecté un circuit absorbant
+    diviseur = "\n\t - - - - - - - -"
 
     # Copie de la matrice
     result = [[i for i in line] for line in matrix]
@@ -21,6 +24,8 @@ def floyd_warshall(matrix):
     # Définition de la diagonale à 0
     for j in range(n):
         result[j][j] = 0
+    print(f"{diviseur}\nInitial Floyd-Warshall matrix:")
+    print_matrix(result)
 
     # Initialisation des prédécesseurs
     for i in range(n):
@@ -37,9 +42,13 @@ def floyd_warshall(matrix):
                     successors = None
 
                 if new_dist < result[i][j]:
+                    result[i][j] = str(new_dist) + "*"
+                    print("\nNew path found:")
+                    print_matrix(result)
                     result[i][j] = new_dist
                     if successors is not None:
                         successors[i][j] = successors[i][intermediate]
+                    
 
     return result, successors
 

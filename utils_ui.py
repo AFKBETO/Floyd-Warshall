@@ -16,7 +16,6 @@ def ask_boolean(message):
     print(message)
     return input() in ['Y', 'y', 'yes', 'Yes', 'oui', 'Oui', 'O', 'o']
 
-
 def ask_number(message):
     print(message)
     raw = input()
@@ -29,6 +28,7 @@ def ask_number(message):
 def ask_file_path(message):
     print(message)
     file_name = input()
+    # vérifier si l'utilisateur souhaite quitter
     if file_name in ['N','n','Non','No','Q','q','Quit','quit','non','no', 'NON', 'NO','QUIT']:
         return None,None
     if not '.' in file_name:
