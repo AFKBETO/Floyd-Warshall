@@ -19,14 +19,11 @@ def main():
 
     while True:
 
-        # Quitter le programme ?
-        if not first_time and not ask_boolean("\nDo you want to analyze another graph [Y/N] ?"):
-            return
-        first_time = False
-
-        # Choix du fichier et validation
-        file_path, error = ask_file_path("\nChoose the name of the file containing the graph you want to analyze:")
+        # Choix du fichier et validation, ou quitter
+        file_path, error = ask_file_path("\nChoose the name of the file containing the graph you want to analyze (press N or Q to quit):")
         if file_path is None:
+            if error is None:
+                return
             print("ERROR: File not found.")
             print("ERROR:", error)
             continue

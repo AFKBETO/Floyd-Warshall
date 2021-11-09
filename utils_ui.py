@@ -29,6 +29,8 @@ def ask_number(message):
 def ask_file_path(message):
     print(message)
     file_name = input()
+    if file_name in ['N','n','Non','No','Q','q','Quit','quit','non','no', 'NON', 'NO','QUIT']:
+        return None,None
     if not '.' in file_name:
         file_name = file_name + '.txt'
     file_path = join(__GRAPHS_FOLDER, file_name)
@@ -43,3 +45,6 @@ def print_matrix(matrix):
         for nb in line:
             pretty += str(nb) + '\t'
         print(pretty)
+
+
+

@@ -10,9 +10,7 @@ from utils import parse_number
 
 
 def parse_matrix_from_file(file_path):
-    if not file_path.endswith(".txt"):
-        file_path = file_path + ".txt"
-        
+
     with open(file_path, 'r') as f:
         lines = [l.strip() for l in f.readlines() if len(l.strip()) is not 0]
 
