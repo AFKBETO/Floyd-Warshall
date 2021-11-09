@@ -24,8 +24,7 @@ def main():
         if file_path is None:
             if error is None:
                 return
-            print("ERROR: File not found.")
-            print("ERROR:", error)
+            print("ERROR: File not found:",error)
             continue
 
         # Lecture de la matrice
