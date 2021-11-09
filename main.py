@@ -10,7 +10,7 @@ from utils_ui import ask_number
 from utils_ui import ask_file_path
 from utils_ui import print_matrix
 from utils_file import parse_matrix_from_file
-from floyd_warshall import calculate_path
+from floyd_warshall import calculate_path, extract_neg_node
 from floyd_warshall import floyd_warshall
 
 
@@ -50,7 +50,10 @@ def main():
 
         # Détection de circuit absorbant
         if fw_successors is None:
-            print("\nGraph contains a cycle with negative weight (présence d'un circuit absorbant).")
+            print("\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
+            print("List of nodes concerned:")
+            print(extract_neg_node(fw_matrix))
+
         
         # Affichage des circuits
         else:

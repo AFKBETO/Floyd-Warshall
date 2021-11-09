@@ -52,3 +52,17 @@ def calculate_path(successors, u, v):
             u = successors[u][v]
             path.append(u)
     return path
+
+#trouver une liste des sommets dans les circuits absorbant
+def extract_neg_node(matrix_graph):
+    list_node_neg = []
+    
+    for i in range(len(matrix_graph)):
+        if matrix_graph[i][i] < 0:
+            list_node_neg.append(i)
+    
+    if len(list_node_neg) == 0:
+        return None
+
+    return list_node_neg
+        
