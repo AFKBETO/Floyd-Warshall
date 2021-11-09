@@ -32,7 +32,7 @@ def floyd_warshall(matrix):
         for i in range(0, n):
             for j in range(0, n):
                 new_dist = result[i][intermediate] + result[intermediate][j]
-
+                # TODO
                 if successors is not None and i == j and new_dist < 0:
                     successors = None
 
