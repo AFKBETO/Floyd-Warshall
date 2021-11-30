@@ -73,7 +73,7 @@ def main():
                             print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
                             count = count + 1
         if count == 0:
-            print("There is no path possible in this graph.")
+            print("There is no shortest path in this graph.")
         else:
             print(f"{diviseur}")
             while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
