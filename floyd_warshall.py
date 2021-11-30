@@ -5,7 +5,7 @@
 Ce fichier contient des méthodes liées à algorithme de Floyd-Warshall.
 """
 
-from math import inf
+from math import isinf
 
 from utils_ui import print_matrix
 
@@ -29,7 +29,8 @@ def floyd_warshall(matrix):
 
     # Définition de la diagonale à 0
     for j in range(n):
-        result[j][j] = 0
+        if isinf(result[j][j]):
+            result[j][j] = 0
     print(f"{diviseur}\nInitial Floyd-Warshall matrix:")
     print_matrix(result)
 
@@ -70,7 +71,10 @@ def floyd_warshall(matrix):
 def calculate_path(successors, neg_list, u, v):
     path = []
     if successors[u][v] is not None:
-        path.append(u)
+        if u in neg_list: #renvoyer une liste vide si oui
+            return []
+        else:             #ajouter u dans le chemin
+            path.append(u)
         while u is not v:
             u = successors[u][v]
             #vérifier si u est un sommet dans le(s) circuit(s) absorbant(s)

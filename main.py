@@ -62,32 +62,38 @@ def main():
         
         # Affichage des circuits
         if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
+            count = 0
             for i in range(node_count):
                 for j in range(node_count):
-                    if isinf(fw_matrix[i][j]):
-                        print("\t", i, "->", j, ": Does not exist")
+                    if isinf(fw_matrix[i][j]) or i == j:
+                        continue
                     else:
                         path_constructed = calculate_path(fw_successors,neg_list, i, j)
                         if len(path_constructed):
                             print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
-                        else:
-                            print("\t", i, "->", j, ": Does not exist")
-        print(f"{diviseur}")
-        while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
-            i = ask_number("Input starting node:")
-            while i is None or i < 0 or i + 1 > node_count:
-                print("ERROR: Node not found.\n")
+                            count = count + 1
+        if count == 0:
+            print("There is no path possible in this graph.")
+        else:
+            print(f"{diviseur}")
+            while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
                 i = ask_number("Input starting node:")
-            j = ask_number("Input ending node:")
-            while j is None or j < 0 or j + 1 > node_count:
-                print("ERROR: Node not found.\n")
+                while i is None or i < 0 or i + 1 > node_count:
+                    print("ERROR: Node not found.\n")
+                    i = ask_number("Input starting node:")
                 j = ask_number("Input ending node:")
-            path_constructed = calculate_path(fw_successors,neg_list, i, j)
-            if len(path_constructed):
-                print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
-            else:
-                print("\t", i, "->", j, ": Does not exist")
-            print("\n")
+                while j is None or j < 0 or j + 1 > node_count:
+                    print("ERROR: Node not found.\n")
+                    j = ask_number("Input ending node:")
+                if isinf(fw_matrix[i][j]):
+                    print("\t", i, "->", j, ": Does not exist")
+                else:
+                    path_constructed = calculate_path(fw_successors,neg_list, i, j)
+                    if len(path_constructed):
+                        print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
+                    else:
+                        print("\t", i, "->", j, ": No shortest path possible")
+                    print("\n")
 
 
 if __name__ == '__main__':
