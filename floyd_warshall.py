@@ -13,6 +13,12 @@ from utils_ui import print_matrix
 # * Il semble honnête de mentionner que l'un des membres du groupe (Guillaume Vandenneucker) avait déjà travaillé sur une version plus basique de cet algorithme dans un projet de cours l'année précédente.
 # * Plus précisément, les trois lignes de boucles principales ainsi que le principe de mise à jour de distance (new_dist) étaient connus.
 # * Le suivi des successeurs a quant à lui été adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
+#   Algorithme de Floyd-Warshall
+#   Paramètres :
+#       matrix      : la matrice représentante le graphe à traiter
+#   Retourne :
+#       result      : la matrice résultante de l'algorithme
+#       successors  : la matrice de successeurs pour reconstruire les chemins
 def floyd_warshall(matrix):
     successors = [[None for i in line] for line in matrix]  # None si on a détecté un circuit absorbant
     diviseur = "\n\t - - - - - - - -"
@@ -38,8 +44,8 @@ def floyd_warshall(matrix):
             for j in range(0, n):
                 new_dist = result[i][intermediate] + result[intermediate][j]
                 
-                if successors is not None and i == j and new_dist < 0:
-                    successors = None
+                #if successors is not None and i == j and new_dist < 0:
+                #    successors = None
 
                 if new_dist < result[i][j]:
                     result[i][j] = str(new_dist) + "*"
@@ -52,26 +58,40 @@ def floyd_warshall(matrix):
 
     return result, successors
 
-# * Adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
-def calculate_path(successors, u, v):
+#   Adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
+#   Construction de chemin (path)
+#   Paramètres :
+#       successors  : la matrice de chemin
+#       neg_list    : la liste des sommets dans circuits absorbants
+#       u           : le sommet de départ
+#       v           : le sommet d'arrivée
+#   Retourne :
+#       path        : le chemin sous forme d'une liste
+def calculate_path(successors, neg_list, u, v):
     path = []
     if successors[u][v] is not None:
         path.append(u)
         while u is not v:
             u = successors[u][v]
-            path.append(u)
+            #vérifier si u est un sommet dans le(s) circuit(s) absorbant(s)
+            if u in neg_list: #renvoyer une liste vide si oui
+                path = []
+                break
+            else:             #ajouter u dans le chemin
+                path.append(u)
     return path
 
-#trouver une liste des sommets dans les circuits absorbant
+#   Récupérer la liste des sommets dans le(s) circuit(s) absorbant(s)
+#   Paramètres :
+#       matrix_graph    : la matrice résultante de l'algorithme Floyd-Warshall
+#   Retourne :
+#       list_node_neg   : la liste des sommets appartiennant dans le(s) circuit(s) absorbant(s)
 def extract_neg_node(matrix_graph):
     list_node_neg = []
     
     for i in range(len(matrix_graph)):
         if matrix_graph[i][i] < 0:
             list_node_neg.append(i)
-    
-    if len(list_node_neg) == 0:
-        return None
 
     return list_node_neg
         

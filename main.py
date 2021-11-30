@@ -41,45 +41,53 @@ def main():
                 Abso = True;
         node_count = len(matrix)
         
-        if not Abso:
-            # Affichage du graphe
-            print(f"{diviseur}\nMatrix representation of the graph :")
-            print_matrix(matrix)
-    
-            # Calcul de Floyd-Warshall
-            fw_matrix, fw_successors = floyd_warshall(matrix)
-            print(f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
-            print_matrix(fw_matrix)
-    
-    
-            # Détection de circuit absorbant
-            if fw_successors is None:
-                print(f"{diviseur}\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
-                print("List of nodes concerned:")
-                print(extract_neg_node(fw_matrix))
-    
-            
-            # Affichage des circuits
+        # Affichage du graphe
+        print(f"{diviseur}\nMatrix representation of the graph :")
+        print_matrix(matrix)
+
+        # Calcul de Floyd-Warshall
+        fw_matrix, fw_successors = floyd_warshall(matrix)
+        print(f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
+        print_matrix(fw_matrix)
+
+        neg_list = extract_neg_node(fw_matrix)
+
+
+        # Détection de circuit absorbant
+        if len(neg_list):
+            print(f"{diviseur}\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
+            print("List of nodes concerned:")
+            print(neg_list)
+
+        
+        # Affichage des circuits
+        if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
+            for i in range(node_count):
+                for j in range(node_count):
+                    if isinf(fw_matrix[i][j]):
+                        print("\t", i, "->", j, ": Does not exist")
+                    else:
+                        path_constructed = calculate_path(fw_successors,neg_list, i, j)
+                        if len(path_constructed):
+                            print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
+                        else:
+                            print("\t", i, "->", j, ": Does not exist")
+        print(f"{diviseur}")
+        while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
+            i = ask_number("Input starting node:")
+            while i is None or i < 0 or i + 1 > node_count:
+                print("ERROR: Node not found.\n")
+                i = ask_number("Input starting node:")
+            j = ask_number("Input ending node:")
+            while j is None or j < 0 or j + 1 > node_count:
+                print("ERROR: Node not found.\n")
+                j = ask_number("Input ending node:")
+            path_constructed = calculate_path(fw_successors,neg_list, i, j)
+            if len(path_constructed):
+                print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
             else:
-                if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
-                    for i in range(node_count):
-                        for j in range(node_count):
-                            if isinf(fw_matrix[i][j]):
-                                print("\t", i, "->", j, ": Does not exist")
-                            else:
-                                print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
-                print(f"{diviseur}")
-                while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
-                    i = ask_number("Input starting node:")
-                    while i is None or i < 0 or i + 1 > node_count:
-                        print("ERROR: Node not found.\n")
-                        i = ask_number("Input starting node:")
-                    j = ask_number("Input ending node:")
-                    while j is None or j < 0 or j + 1 > node_count:
-                        print("ERROR: Node not found.\n")
-                        j = ask_number("Input ending node:")
-                    print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
-                    print("\n")
+                print("\t", i, "->", j, ": Does not exist")
+            print("\n")
 
 
 if __name__ == '__main__':
