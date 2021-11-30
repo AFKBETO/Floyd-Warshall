@@ -8,7 +8,12 @@ Ce fichier contient des méthodes utilitaires pour la lecture et validation du p
 from math import inf
 from utils import parse_number
 
-
+#   Lecture de fichier
+#   Paramètres :
+#       file_path   : le fichier contiennant le graphe à traiter
+#   Retourne :
+#       matrix      : la matrice représantant le graphe - None s'il y a des erreurs
+#       error_msg   : le message d'erreur (s'il y en a)
 def parse_matrix_from_file(file_path):
 
     with open(file_path, 'r') as f:

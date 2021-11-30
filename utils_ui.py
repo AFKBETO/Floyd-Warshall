@@ -11,10 +11,21 @@ from os.path import join
 
 __GRAPHS_FOLDER = join(dirname(__file__), 'graphs')
 
+#   Demande confirmation Oui/Non
+#   Paramètres :
+#       message : la question à afficher
+#   Retourne :
+#       True/False
 
 def ask_boolean(message):
     print(message)
     return input() in ['Y', 'y', 'yes', 'Yes', 'oui', 'Oui', 'O', 'o']
+
+#   Demande d'un nombre
+#   Paramètres :
+#       message : la question à afficher
+#   Retourne :
+#       integer - None si hors format
 
 def ask_number(message):
     print(message)
@@ -24,6 +35,12 @@ def ask_number(message):
     except:
         return None
 
+#   Demande d'un fichier
+#   Paramètres :
+#       message     : la question à afficher
+#   Retourne :
+#       file_path   : le chemin du fichier
+#       path_error  : si et seulement si le fichier non trouvé
 
 def ask_file_path(message):
     print(message)
@@ -38,7 +55,11 @@ def ask_file_path(message):
         return None, file_path
     return file_path, None
 
-
+#   Afficher une matrice
+#   Paramètres :
+#       matrix  : la matrice à afficher
+#   Retourne :
+#       None
 def print_matrix(matrix):
     for line in matrix:
         pretty = ''
