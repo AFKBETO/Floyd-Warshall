@@ -34,46 +34,52 @@ def main():
         if matrix is None:
             print(error)
             continue
+        Abso = False
+        for x in range(len(matrix)):
+            if matrix[x][x] < 0:
+                print("Noeud Absorbant en " + str(x))
+                Abso = True;
         node_count = len(matrix)
         
-        # Affichage du graphe
-        print(f"{diviseur}\nMatrix representation of the graph :")
-        print_matrix(matrix)
-
-        # Calcul de Floyd-Warshall
-        fw_matrix, fw_successors = floyd_warshall(matrix)
-        print(f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
-        print_matrix(fw_matrix)
-
-
-        # Détection de circuit absorbant
-        if fw_successors is None:
-            print(f"{diviseur}\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
-            print("List of nodes concerned:")
-            print(extract_neg_node(fw_matrix))
-
-        
-        # Affichage des circuits
-        else:
-            if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
-                for i in range(node_count):
-                    for j in range(node_count):
-                        if isinf(fw_matrix[i][j]):
-                            print("\t", i, "->", j, ": Does not exist")
-                        else:
-                            print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
-            print(f"{diviseur}")
-            while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
-                i = ask_number("Input starting node:")
-                while i is None or i < 0 or i + 1 > node_count:
-                    print("ERROR: Node not found.\n")
+        if not Abso:
+            # Affichage du graphe
+            print(f"{diviseur}\nMatrix representation of the graph :")
+            print_matrix(matrix)
+    
+            # Calcul de Floyd-Warshall
+            fw_matrix, fw_successors = floyd_warshall(matrix)
+            print(f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
+            print_matrix(fw_matrix)
+    
+    
+            # Détection de circuit absorbant
+            if fw_successors is None:
+                print(f"{diviseur}\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
+                print("List of nodes concerned:")
+                print(extract_neg_node(fw_matrix))
+    
+            
+            # Affichage des circuits
+            else:
+                if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
+                    for i in range(node_count):
+                        for j in range(node_count):
+                            if isinf(fw_matrix[i][j]):
+                                print("\t", i, "->", j, ": Does not exist")
+                            else:
+                                print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
+                print(f"{diviseur}")
+                while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
                     i = ask_number("Input starting node:")
-                j = ask_number("Input ending node:")
-                while j is None or j < 0 or j + 1 > node_count:
-                    print("ERROR: Node not found.\n")
+                    while i is None or i < 0 or i + 1 > node_count:
+                        print("ERROR: Node not found.\n")
+                        i = ask_number("Input starting node:")
                     j = ask_number("Input ending node:")
-                print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
-                print("\n")
+                    while j is None or j < 0 or j + 1 > node_count:
+                        print("ERROR: Node not found.\n")
+                        j = ask_number("Input ending node:")
+                    print("\t", i, "->", j, ":", str(calculate_path(fw_successors, i, j)).replace('[', '').replace(']', ''))
+                    print("\n")
 
 
 if __name__ == '__main__':
