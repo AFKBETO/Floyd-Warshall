@@ -8,6 +8,7 @@ Ce fichier contient des méthodes liées à algorithme de Floyd-Warshall.
 from math import isinf
 
 from utils_ui import print_matrix
+from utils_ui import write_line,write_matrix
 
 
 # * Il semble honnête de mentionner que l'un des membres du groupe (Guillaume Vandenneucker) avait déjà travaillé sur une version plus basique de cet algorithme dans un projet de cours l'année précédente.
@@ -15,11 +16,12 @@ from utils_ui import print_matrix
 # * Le suivi des successeurs a quant à lui été adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
 #   Algorithme de Floyd-Warshall
 #   Paramètres :
+#       file_name   : le nom de fichier où l'exécution de l'algorithme est ajoutée
 #       matrix      : la matrice représentante le graphe à traiter
 #   Retourne :
 #       result      : la matrice résultante de l'algorithme
 #       successors  : la matrice de successeurs pour reconstruire les chemins
-def floyd_warshall(matrix):
+def floyd_warshall(file_name,matrix):
     successors = [[None for i in line] for line in matrix]  # None si on a détecté un circuit absorbant
     diviseur = "\n\t - - - - - - - -"
 
@@ -31,8 +33,11 @@ def floyd_warshall(matrix):
     for j in range(n):
         if isinf(result[j][j]):
             result[j][j] = 0
+    
     print(f"{diviseur}\nInitial Floyd-Warshall matrix:")
+    write_line(file_name,f"{diviseur}\nInitial Floyd-Warshall matrix:")
     print_matrix(result)
+    write_matrix(file_name,result)
 
     # Initialisation des prédécesseurs
     for i in range(n):
@@ -51,7 +56,9 @@ def floyd_warshall(matrix):
                 if new_dist < result[i][j]:
                     result[i][j] = str(new_dist) + "*"
                     print("\nNew path found:")
+                    write_line(file_name,"\nNew path found:")
                     print_matrix(result)
+                    write_matrix(file_name,result)
                     result[i][j] = new_dist
                     if successors is not None:
                         successors[i][j] = successors[i][intermediate]

@@ -53,3 +53,5 @@ def parse_matrix_from_file(file_path):
                 return None, "GRAPH ERROR: Multiple edges with same endpoints detected: Line " + str(i+1)
 
     return matrix, None
+
+

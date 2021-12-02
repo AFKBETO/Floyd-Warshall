@@ -9,6 +9,7 @@ from utils_ui import ask_boolean
 from utils_ui import ask_number
 from utils_ui import ask_file_path
 from utils_ui import print_matrix
+from utils_ui import write_line, write_matrix,write_new
 from utils_file import parse_matrix_from_file
 from floyd_warshall import calculate_path, extract_neg_node
 from floyd_warshall import floyd_warshall
@@ -21,34 +22,44 @@ def main():
     while True:
 
         # Choix du fichier et validation, ou quitter
-        file_path, error = ask_file_path("\nChoose the name of the file containing the graph you want to analyze (press N or Q to quit):")
+        file_path, file_name, error = ask_file_path("\nChoose the name of the file containing the graph you want to analyze (press N or Q to quit):")
         if file_path is None:
             # vérifier si error est None (quitter)
             if error is None:
                 return
             print("ERROR: File not found:",error)
+            write_new(file_name, f"ERROR: File not found: {error}")
             continue
 
         # Lecture de la matrice
         matrix, error = parse_matrix_from_file(file_path)
         if matrix is None:
+            write_new(file_name, error)
             print(error)
             continue
-        Abso = False
-        for x in range(len(matrix)):
-            if matrix[x][x] < 0:
-                print("Noeud Absorbant en " + str(x))
-                Abso = True;
+
+        write_new(file_name,"")
         node_count = len(matrix)
         
         # Affichage du graphe
         print(f"{diviseur}\nMatrix representation of the graph :")
         print_matrix(matrix)
 
+        for x in range(len(matrix)):
+            if matrix[x][x] < 0:
+                print("Noeud Absorbant en " + str(x))
+                write_line(file_name, f"Noeud Absorbant en {str(x)}")
+
+        write_line(file_name,f"{diviseur}\nMatrix representation of the graph :")
+        write_matrix(file_name,matrix)
+
         # Calcul de Floyd-Warshall
-        fw_matrix, fw_successors = floyd_warshall(matrix)
+        fw_matrix, fw_successors = floyd_warshall(file_name,matrix)
         print(f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
         print_matrix(fw_matrix)
+
+        write_line(file_name,f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
+        write_matrix(file_name,fw_matrix)
 
         neg_list = extract_neg_node(fw_matrix)
 
@@ -56,8 +67,11 @@ def main():
         # Détection de circuit absorbant
         if len(neg_list):
             print(f"{diviseur}\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
+            write_line(file_name,f"{diviseur}\nGraph contains at least a cycle with negative weight (présence d'un circuit absorbant).")
             print("List of nodes concerned:")
+            write_line(file_name,"List of nodes concerned:")
             print(neg_list)
+            write_line(file_name,f"{neg_list}")
 
         
         # Affichage des circuits
@@ -72,8 +86,8 @@ def main():
                         if len(path_constructed):
                             print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
                             count = count + 1
-        if count == 0:
-            print("There is no shortest path in this graph.")
+            if count == 0:
+                print("There is no shortest path in this graph.")
         else:
             print(f"{diviseur}")
             while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
