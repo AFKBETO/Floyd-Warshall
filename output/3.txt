@@ -1,0 +1,47 @@
+
+
+
+	 - - - - - - - -
+Matrix representation of the graph :
+inf	1	-5	inf	
+inf	inf	-3	2	
+inf	4	inf	2	
+inf	inf	inf	inf	
+
+	 - - - - - - - -
+Initial Floyd-Warshall matrix:
+0	1	-5	inf	
+inf	0	-3	2	
+inf	4	0	2	
+inf	inf	inf	0	
+
+New path found:
+0	1	-5	3*	
+inf	0	-3	2	
+inf	4	0	2	
+inf	inf	inf	0	
+
+New path found:
+0	-1*	-5	3	
+inf	0	-3	2	
+inf	4	0	2	
+inf	inf	inf	0	
+
+New path found:
+0	-1	-5	-3*	
+inf	0	-3	2	
+inf	4	0	2	
+inf	inf	inf	0	
+
+New path found:
+0	-1	-5	-3	
+inf	0	-3	-1*	
+inf	4	0	2	
+inf	inf	inf	0	
+
+	 - - - - - - - -
+Analysis complete. Path matrix of this graph:
+0	-1	-5	-3	
+inf	0	-3	-1	
+inf	4	0	2	
+inf	inf	inf	0	

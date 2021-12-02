@@ -92,11 +92,8 @@ def write_matrix(file_name, matrix):
 def write_line(file_name, text):
     file_path = join(__OUTPUT_FOLDER,file_name)
     with open(file_path,'a',encoding='utf-8') as f:
-        try:
-            f.write('\n'+text)
-        except:
-            for line in text:
-                f.write('\n'+ line)
+        f.write('\n'+text)
+
 
 #   Vider le fichier(si existe) et ajouter à nouveau
 #   Paramètres :
@@ -107,8 +104,4 @@ def write_line(file_name, text):
 def write_new(file_name, text):
     file_path = join(__OUTPUT_FOLDER,file_name)
     with open(file_path,'w',encoding='utf-8') as f:
-        try:
-            f.write('\n'+text)
-        except:
-            for line in text:
-                f.write('\n'+ line)
+        f.write('\n'+text)

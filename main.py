@@ -45,13 +45,14 @@ def main():
         print(f"{diviseur}\nMatrix representation of the graph :")
         print_matrix(matrix)
 
-        for x in range(len(matrix)):
-            if matrix[x][x] < 0:
-                print("Noeud Absorbant en " + str(x))
-                write_line(file_name, f"Noeud Absorbant en {str(x)}")
-
         write_line(file_name,f"{diviseur}\nMatrix representation of the graph :")
         write_matrix(file_name,matrix)
+
+        for x in range(len(matrix)):
+            if matrix[x][x] < 0:
+                print("Negative self-loop at " + str(x))
+                write_line(file_name, f"\nNegative self-loop at {str(x)}")
+
 
         # Calcul de Floyd-Warshall
         fw_matrix, fw_successors = floyd_warshall(file_name,matrix)
