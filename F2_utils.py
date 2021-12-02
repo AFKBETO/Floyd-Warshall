@@ -5,11 +5,11 @@
 Ce fichier contient des méthodes utilitaires diverses.
 """
 
-#   Lecture d'une chaîne de chiffres
+#   Convertir d'une chaîne de chiffres à un résultat entier
 #   Paramètres :
 #       raw     : la chaîne à traiter
 #   Retourne :
-#       integer : le nombre sous forme int - None si hors format
+#       integer : l'entier sous forme int - None si hors format
 def parse_number(raw):
     try:
         return int(raw)

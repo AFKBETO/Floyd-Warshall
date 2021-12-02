@@ -24,7 +24,7 @@ def main():
         # Choix du fichier et validation, ou quitter
         file_path, file_name, error = ask_file_path("\nChoose the name of the file containing the graph you want to analyze (press N or Q to quit):")
         if file_path is None:
-            # vérifier si error est None (quitter)
+            # Vérification si error est None (quitter)
             if error is None:
                 return
             print("ERROR: File not found:",error)
@@ -37,17 +37,19 @@ def main():
             write_new(file_name, error)
             print(error)
             continue
-
+        
+        # Initialisation du fichier de traces d'exécution
         write_new(file_name,f"Source: {file_path}")
         node_count = len(matrix)
         
-        # Affichage du graphe
+        # Affichage de la matrice représantant du graphe
         print(f"{diviseur}\nMatrix representation of the graph :")
         print_matrix(matrix)
 
         write_line(file_name,f"{diviseur}\nMatrix representation of the graph :")
         write_matrix(file_name,matrix)
 
+        # Détection des boucles négatives
         for x in range(len(matrix)):
             if matrix[x][x] < 0:
                 print("Negative self-loop at " + str(x))
@@ -62,8 +64,8 @@ def main():
         write_line(file_name,f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
         write_matrix(file_name,fw_matrix)
 
+        # Récupération des sommets affectés par les circuits absorbants
         neg_list = extract_neg_node(fw_matrix)
-
 
         # Détection de circuit absorbant
         if len(neg_list):
@@ -75,11 +77,13 @@ def main():
             write_line(file_name,f"{neg_list}")
 
         
-        # Affichage des circuits
+        # Affichage des chemins
         if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
-            count = 0
+            count = 0       # compter le nombre de chemins
             for i in range(node_count):
                 for j in range(node_count):
+                    # Vérification s'il n'y a pas de chemin ou les sommets de départ et d'arrivée
+                    # sont identiques
                     if isinf(fw_matrix[i][j]) or i == j:
                         continue
                     else:
@@ -87,9 +91,10 @@ def main():
                         if len(path_constructed):
                             print("\t", i, "->", j, ":", str(path_constructed).replace('[', '').replace(']', ''))
                             count = count + 1
-            if count == 0:
+            if count == 0:  # quand il n'y a pas de chemin le plus court dans le graphe
                 print("There is no shortest path in this graph.")
         else:
+            # Affichage du chemin au choix
             print(f"{diviseur}")
             while ask_boolean("Do you want to show the shortest path between two nodes of your choice [Y/N]?"):
                 i = ask_number("Input starting node:")

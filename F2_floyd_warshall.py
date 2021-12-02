@@ -16,7 +16,7 @@ from F2_utils_ui import write_line,write_matrix
 # * Le suivi des successeurs a quant à lui été adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
 #   Algorithme de Floyd-Warshall
 #   Paramètres :
-#       file_name   : le nom de fichier où l'exécution de l'algorithme est ajoutée
+#       file_name   : le nom de fichier où la trace d'exécution de l'algorithme est ajoutée
 #       matrix      : la matrice représentante le graphe à traiter
 #   Retourne :
 #       result      : la matrice résultante de l'algorithme
@@ -29,9 +29,9 @@ def floyd_warshall(file_name,matrix):
     result = [[i for i in line] for line in matrix]
     n = len(result)
 
-    # Définition de la diagonale à 0
+    # Définition de la diagonale à 0 s'il y a de boucles négatives
     for j in range(n):
-        if isinf(result[j][j]):
+        if result[j][j] > 0:
             result[j][j] = 0
     
     print(f"{diviseur}\nInitial Floyd-Warshall matrix:")
@@ -39,7 +39,7 @@ def floyd_warshall(file_name,matrix):
     print_matrix(result)
     write_matrix(file_name,result)
 
-    # Initialisation des prédécesseurs
+    # Initialisation des successeurs de chaque sommet
     for i in range(n):
         for j in range(n):
             successors[i][j] = j
@@ -48,18 +48,18 @@ def floyd_warshall(file_name,matrix):
     for intermediate in range(0, n):
         for i in range(0, n):
             for j in range(0, n):
+                # Calcul du coût du chemin i - intermediate - j
                 new_dist = result[i][intermediate] + result[intermediate][j]
                 
-                #if successors is not None and i == j and new_dist < 0:
-                #    successors = None
-
+                # Vérification si ce coût est plus petit que le résultat déjà enregistré
+                # Modification de cette valeur si vrai
                 if new_dist < result[i][j]:
-                    result[i][j] = str(new_dist) + "*"
+                    result[i][j] = str(new_dist) + "*"      # marquer quelle valeur a été modifiée
                     print("\nNew path found:")
                     write_line(file_name,"\nNew path found:")
                     print_matrix(result)
                     write_matrix(file_name,result)
-                    result[i][j] = new_dist
+                    result[i][j] = new_dist                 # remettre cette valeur au type entier
                     if successors is not None:
                         successors[i][j] = successors[i][intermediate]
                     
@@ -69,26 +69,28 @@ def floyd_warshall(file_name,matrix):
 #   Adapté de https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Path_reconstruction
 #   Construction de chemin (path)
 #   Paramètres :
-#       successors  : la matrice de chemin
-#       neg_list    : la liste des sommets dans circuits absorbants
+#       successors  : la matrice des chemins les plus courts
+#       neg_list    : la liste des sommets affectés par circuits absorbants
 #       u           : le sommet de départ
 #       v           : le sommet d'arrivée
 #   Retourne :
-#       path        : le chemin sous forme d'une liste
+#       path        : le chemin sous forme d'une liste (None s'il n'y a pas de chemin le plus court)
 def calculate_path(successors, neg_list, u, v):
     path = []
     if successors[u][v] is not None:
-        if u in neg_list: #renvoyer une liste vide si oui
-            return []
-        else:             #ajouter u dans le chemin
-            path.append(u)
-        while u is not v:
+        # Vérification si les sommets sont affectés par circuits absorbants
+        if u in neg_list or v in neg_list:
+            return []           # renvoyer une liste vide si oui
+        else:             
+            path.append(u)      # ajouter u dans le chemin
+        while u is not v:       # parcourir la matrice de chemin jusqu'à quand on arrive à l'arrivée
+            # Affectation du successeur de u qui nous amène à v sur u
             u = successors[u][v]
-            #vérifier si u est un sommet dans le(s) circuit(s) absorbant(s)
-            if u in neg_list: #renvoyer une liste vide si oui
-                path = []
+            # Vérification si u est un sommet dans le(s) circuit(s) absorbant(s)
+            if u in neg_list:   
+                path = []       # renvoyer une liste vide si oui
                 break
-            else:             #ajouter u dans le chemin
+            else:               # ajouter u dans le chemin
                 path.append(u)
     return path
 
