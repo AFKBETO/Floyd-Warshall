@@ -81,7 +81,10 @@ def write_matrix(file_name, matrix):
     for line in matrix:
         pretty = ''
         for nb in line:
-            pretty += str(nb) + '\t'
+            if len(str(nb)) >= 4:
+                pretty += str(nb) + '\t'    
+            else:
+                pretty += str(nb) + '\t\t'
         write_line(file_name,pretty)
 
 #   Ajouter une ligne de texte dans un fichier
