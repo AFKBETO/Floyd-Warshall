@@ -1,2 +1,0 @@
-
-SYNTAX ERROR: Wrong node count format

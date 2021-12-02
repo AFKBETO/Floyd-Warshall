@@ -8,6 +8,7 @@ Ce fichier contient des méthodes utilitaires pour l'interaction avec l'utilisat
 from os.path import exists
 from os.path import dirname
 from os.path import join
+from os import makedirs
 
 __GRAPHS_FOLDER = join(dirname(__file__), 'graphs')
 __OUTPUT_FOLDER = join(dirname(__file__), 'output')
@@ -90,6 +91,8 @@ def write_matrix(file_name, matrix):
 #   Retourne :
 #       None
 def write_line(file_name, text):
+    if not exists(__OUTPUT_FOLDER):
+        makedirs(__OUTPUT_FOLDER)
     file_path = join(__OUTPUT_FOLDER,file_name)
     with open(file_path,'a',encoding='utf-8') as f:
         f.write('\n'+text)
@@ -102,6 +105,8 @@ def write_line(file_name, text):
 #   Retourne :
 #       None
 def write_new(file_name, text):
+    if not exists(__OUTPUT_FOLDER):
+        makedirs(__OUTPUT_FOLDER)
     file_path = join(__OUTPUT_FOLDER,file_name)
     with open(file_path,'w',encoding='utf-8') as f:
         f.write('\n'+text)
