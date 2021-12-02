@@ -81,13 +81,13 @@ def calculate_path(successors, neg_list, u, v):
         # Vérification si les sommets sont affectés par circuits absorbants
         if u in neg_list or v in neg_list:
             return []           # renvoyer une liste vide si oui
-        else:             
+        else:
             path.append(u)      # ajouter u dans le chemin
         while u is not v:       # parcourir la matrice de chemin jusqu'à quand on arrive à l'arrivée
             # Affectation du successeur de u qui nous amène à v sur u
             u = successors[u][v]
             # Vérification si u est un sommet dans le(s) circuit(s) absorbant(s)
-            if u in neg_list:   
+            if u in neg_list:
                 path = []       # renvoyer une liste vide si oui
                 break
             else:               # ajouter u dans le chemin

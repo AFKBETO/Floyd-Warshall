@@ -55,7 +55,6 @@ def main():
                 print("Negative self-loop at " + str(x))
                 write_line(file_name, f"\nNegative self-loop at {str(x)}")
 
-
         # Calcul de Floyd-Warshall
         fw_matrix, fw_successors = floyd_warshall(file_name,matrix)
         print(f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
@@ -63,6 +62,9 @@ def main():
 
         write_line(file_name,f"{diviseur}\nAnalysis complete. Path matrix of this graph:")
         write_matrix(file_name,fw_matrix)
+
+        write_line(file_name,f"{diviseur}\nAnalysis complete. Successor matrix of this graph:")
+        write_matrix(file_name,fw_successors)
 
         # Récupération des sommets affectés par les circuits absorbants
         neg_list = extract_neg_node(fw_matrix)
@@ -75,7 +77,6 @@ def main():
             write_line(file_name,"List of nodes concerned:")
             print(neg_list)
             write_line(file_name,f"{neg_list}")
-
         
         # Affichage des chemins
         if ask_boolean(f"{diviseur}\nDo you want to list every shortest path possible [Y/N]?"):
